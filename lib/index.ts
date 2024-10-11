@@ -4,7 +4,7 @@ import { COLLECTIONS } from '@/constants';
 import { db } from '@/lib/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 
-export const getAllGuests = async () => {
+export const getAllGuests = async (): Promise<GestAllGuestsResponse> => {
     try {
         const querySnapshot = await getDocs(collection(db, COLLECTIONS.GUESTS));
         const guests = querySnapshot.docs.map((doc) => ({
@@ -12,23 +12,24 @@ export const getAllGuests = async () => {
             ...doc.data(),
         }));
         const serializedGuests = JSON.parse(JSON.stringify(guests));
-        return serializedGuests as GuestType;
+        return {
+            status: 'success',
+            data: serializedGuests
+        };
     } catch (e) {
         console.error(e)
-        throw new Error('Error to get all guests!')
+        return {
+            status: 'error',
+            error: {
+                message: 'Error to get all the Guests',
+                name: ''
+            },
+            data: null
+        }
     }
 }
 
-interface ApiResponse {
-    status: 'error' | 'success'
-    error?: Error
-    data: unknown
-}
-interface GetSingleGuestResult extends ApiResponse {
-    data: GuestType | null
-
-}
-export const getSingleGuest = async (email: string): Promise<GetSingleGuestResult> => {
+export const getSingleGuest = async (email: string): Promise<GetSingleGuestResponse> => {
     try {
         const q = query(collection(db, COLLECTIONS.GUESTS), where("email", "==", email));
 
@@ -81,3 +82,7 @@ export async function submitLogin(formData: FormData) {
         throw new Error('Erro ao submeter o login');
     }
 }
+
+export const handleLogout = () => {
+    document.cookie = "halloween-freitas-email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+};

@@ -13,7 +13,7 @@ export const LoginForm = () => {
     try {
       const data = await getSingleGuest(email);
       if (data.status === 'error') return alert(data.error?.message);
-      return router.push('/dashboard');
+      return router.push('/votacao');
     } catch (e) {
       console.error(e);
       throw Error;
