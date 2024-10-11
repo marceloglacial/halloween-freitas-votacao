@@ -3,7 +3,7 @@ import { logout } from '@/lib/login';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export const LogoutButton = () => {
+export const LogoutButton = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -24,7 +24,7 @@ export const LogoutButton = () => {
   return (
     <button
       className='btn btn-primary'
-      onClick={handleClick}
+      onClick={(e) => handleClick(e)}
       disabled={isLoading}
     >
       Sair

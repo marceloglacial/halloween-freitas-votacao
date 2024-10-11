@@ -1,3 +1,5 @@
+import { LoadingState } from '@/components';
+
 export default function LoadingPage() {
-  return <span className='loading loading-spinner loading-lg'></span>;
+  return <LoadingState />;
 }

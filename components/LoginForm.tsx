@@ -3,26 +3,30 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/lib/login';
+import { Alert, LoadingState } from '@/components';
 
-export const LoginForm = () => {
+export const LoginForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsError(false);
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const result = await login(formData);
 
-    setIsLoading(false);
-
     if (result?.status === 'error') {
-      alert('Usuário não encontrado!');
+      setIsLoading(false);
+      setIsError(true);
     } else {
       router.push('/votacao');
     }
   };
+
+  if (isLoading) return <LoadingState />;
 
   return (
     <div data-id='hero' className='hero bg-base-200 min-h-screen'>
@@ -35,6 +39,7 @@ export const LoginForm = () => {
             a id nisi.
           </p>
           <div className='flex flex-col gap-4'>
+            {isError && <Alert title='Usuário não cadastrado!' />}
             <label className='input input-bordered flex items-center gap-2'>
               Email
               <input

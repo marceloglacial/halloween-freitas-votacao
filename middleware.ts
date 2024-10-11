@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getSession } from './lib/login';
 
 export async function middleware(req: NextRequest) {
-    const email = req.cookies.get('halloween-freitas-email')?.value;
+    const data = await getSession()
 
-    if (!email) {
+    if (!data) {
         return NextResponse.redirect(new URL('/', req.url));
     }
     return NextResponse.next();

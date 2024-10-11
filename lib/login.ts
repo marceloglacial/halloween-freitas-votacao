@@ -3,7 +3,8 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { getSingleGuest } from './guest';
+import { COLLECTIONS } from '@/constants';
+import { getSingleDocFromCollectionByParam } from './firebase';
 
 const secretKey = process.env.ENCRIPT_KEY
 const key = new TextEncoder().encode(secretKey);
@@ -29,10 +30,15 @@ export async function login(formData: FormData) {
 
     if (!user.email) return;
 
-    const guest = await getSingleGuest(user.email?.toString())
+    const guest = (await getSingleDocFromCollectionByParam(
+        COLLECTIONS.GUESTS,
+        'email',
+        user.email?.toString()
+    )) as GetSingleGuestResponse;
+
 
     if (guest.status === 'success') {
-        const expires = new Date(Date.now() + 10 * 1000);
+        const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
         const session = await encrypt({ user, expires });
 
         cookies().set(cookieName, session, { expires, httpOnly: true });

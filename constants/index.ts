@@ -1,3 +1,4 @@
 export const COLLECTIONS = {
-    GUESTS: 'guests'
+    GUESTS: 'guests',
+    POLLS: 'polls'
 }
