@@ -1,22 +1,26 @@
 'use client';
-import { getSingleGuest } from '@/lib';
+
+import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { loginAction } from '@/lib/login';
 
 export const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const email = form.email.value;
+    setIsLoading(true);
 
-    try {
-      const data = await getSingleGuest(email);
-      if (data.status === 'error') return alert(data.error?.message);
-      return router.push('/votacao');
-    } catch (e) {
-      console.error(e);
-      throw Error;
+    const formData = new FormData(e.currentTarget);
+    const result = await loginAction(formData);
+
+    setIsLoading(false);
+
+    if (result?.status === 'error') {
+      alert('Usuário não encontrado!');
+    } else {
+      router.push('/votacao');
     }
   };
 
@@ -39,10 +43,15 @@ export const LoginForm = () => {
                 className='grow'
                 defaultValue={'glacial@gmail.com'}
                 required
+                disabled={isLoading}
               />
             </label>
-            <button type='submit' className='btn btn-primary'>
-              Iniciar
+            <button
+              type='submit'
+              className='btn btn-primary'
+              disabled={isLoading}
+            >
+              {isLoading ? 'Loading...' : 'Iniciar'}
             </button>
           </div>
         </form>

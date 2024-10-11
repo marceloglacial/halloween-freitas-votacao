@@ -1,5 +1,4 @@
 'use server'
-
 import { COLLECTIONS } from '@/constants';
 import { db } from '@/lib/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
@@ -66,23 +65,4 @@ export const getSingleGuest = async (email: string): Promise<GetSingleGuestRespo
             data: null
         }
     }
-};
-
-export async function submitLogin(formData: FormData) {
-    const email = formData.get('email')?.toString();
-
-    if (!email) throw new Error('Favor preencher o email!');
-
-    try {
-        const guest = await getSingleGuest(email);
-        if (!guest) throw new Error('Usuário não encontrado')
-        return guest
-    } catch (e) {
-        console.error(e);
-        throw new Error('Erro ao submeter o login');
-    }
-}
-
-export const handleLogout = () => {
-    document.cookie = "halloween-freitas-email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 };
