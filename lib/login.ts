@@ -13,7 +13,7 @@ export async function encrypt(payload: any) {
     return await new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("10 sec from now")
+        .setExpirationTime("1 day from now")
         .sign(key);
 }
 
@@ -25,8 +25,6 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function login(formData: FormData) {
-    // Verify credentials && get the user
-
     const user = { email: formData.get("email"), name: "John" };
 
     if (!user.email) return;
@@ -34,18 +32,15 @@ export async function login(formData: FormData) {
     const guest = await getSingleGuest(user.email?.toString())
 
     if (guest.status === 'success') {
-        // Create the session
         const expires = new Date(Date.now() + 10 * 1000);
         const session = await encrypt({ user, expires });
 
-        // Save the session in a cookie
         cookies().set(cookieName, session, { expires, httpOnly: true });
     }
     return guest
 }
 
 export async function logout() {
-    // Destroy the session
     cookies().set(cookieName, "", { expires: new Date(0) });
 }
 
@@ -57,9 +52,9 @@ export async function getSession() {
 
 export async function updateSession(request: NextRequest) {
     const session = request.cookies.get(cookieName)?.value;
+
     if (!session) return;
 
-    // Refresh the session so it doesn't expire
     const parsed = await decrypt(session);
     parsed.expires = new Date(Date.now() + 10 * 1000);
     const res = NextResponse.next();
@@ -71,11 +66,3 @@ export async function updateSession(request: NextRequest) {
     });
     return res;
 }
-
-export const loginAction = async (formData) => {
-    'use server'; // This function runs on the server
-
-    const result = await login(formData);
-
-    return result;
-};

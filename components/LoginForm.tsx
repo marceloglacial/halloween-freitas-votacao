@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginAction } from '@/lib/login';
+import { login } from '@/lib/login';
 
 export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +13,7 @@ export const LoginForm = () => {
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const result = await loginAction(formData);
+    const result = await login(formData);
 
     setIsLoading(false);
 
