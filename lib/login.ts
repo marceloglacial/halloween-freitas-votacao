@@ -72,3 +72,14 @@ export async function updateSession(request: NextRequest) {
     });
     return res;
 }
+
+export const getUserInfo = async () => {
+    const user = await getSession();
+    const guest = (await getSingleDocFromCollectionByParam(
+        COLLECTIONS.GUESTS,
+        'email',
+        user.user.email
+    )) as GetSingleGuestResponse;
+
+    return guest
+}

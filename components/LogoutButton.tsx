@@ -1,4 +1,5 @@
 'use client';
+import { playClick } from '@/lib/audio';
 import { logout } from '@/lib/login';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ export const LogoutButton = (): JSX.Element => {
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    playClick();
     try {
       setIsLoading(true);
       await logout();
@@ -23,7 +25,7 @@ export const LogoutButton = (): JSX.Element => {
 
   return (
     <button
-      className='btn btn-primary'
+      className='btn btn-primary btn-lg w-full'
       onClick={(e) => handleClick(e)}
       disabled={isLoading}
     >

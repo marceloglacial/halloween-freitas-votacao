@@ -1,8 +1,13 @@
 type GuestType = {
     id: string,
     name: string,
-    email: string
-    photo?: string
+    email: string,
+    photo?: string,
+    votes?: number,
+    polls?: {
+        pollId: string,
+        vote: GuestType
+    }[]
 }
 
 interface ApiResponse {
@@ -22,6 +27,7 @@ type PollType = {
     id: string,
     title: string
     icon: string
+    options: GuestType[]
 }
 
 interface PollApiResponse extends ApiResponse {
@@ -37,6 +43,7 @@ interface CardProps {
     title?: string;
     id: string;
     icon?: string;
+    disabled: boolean
 }
 
 type PhotoType = {

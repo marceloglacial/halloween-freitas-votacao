@@ -1,6 +1,6 @@
 import { serializedData } from '@/util'
 import { initializeApp, getApps, getApp } from 'firebase/app'
-import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
@@ -17,9 +17,10 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 export const storage = getStorage(app)
 export const db = getFirestore(app)
 
-export const getAllDocsFromCollection = async (collectionId: string): Promise<ApiResponse> => {
+export const getAllDocsFromCollection = async (collectionId: string, order?: string): Promise<ApiResponse> => {
     try {
-        const querySnapshot = await getDocs(collection(db, collectionId));
+        const q = order ? query(collection(db, collectionId), orderBy(order)) : collection(db, collectionId);
+        const querySnapshot = await getDocs(q);
         const guests = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
