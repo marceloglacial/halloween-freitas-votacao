@@ -46,7 +46,6 @@ export const LoginForm = (): JSX.Element => {
                 type='email'
                 name='email'
                 className='grow'
-                defaultValue={'glacial@gmail.com'}
                 required
                 disabled={isLoading}
               />
