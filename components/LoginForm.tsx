@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/lib/login';
 import { Alert, LoadingState } from '@/components';
+import { secondaryFont } from '@/util/fonts';
 
 export const LoginForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,11 +33,12 @@ export const LoginForm = (): JSX.Element => {
     <div data-id='hero' className='hero bg-base-200 min-h-screen'>
       <div className='hero-content text-center'>
         <form onSubmit={handleSubmit} className='max-w-md'>
-          <h1 className='text-5xl font-bold'>Halloween Votação</h1>
+          <h1 className={`text-5xl font-bold ${secondaryFont.className}`}>
+            Halloween dos Freitas
+          </h1>
           <p className='py-6'>
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            Entre com seu email. <br />
+            Caso não tenha acesso, favor se cadastrar no site.
           </p>
           <div className='flex flex-col gap-4'>
             {isError && <Alert title='Usuário não cadastrado!' />}
