@@ -11,7 +11,7 @@ const PollPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className='flex flex-col gap-16 p-16'>
-      <h1 className={`text-8xl text-center mt-8 ${secondaryFont.className}`}>
+      <h1 className={`text-7xl text-center mt-8 ${secondaryFont.className}`}>
         {page.icon} {page.title}
       </h1>
       <PollOptions id={params.id} options={guests} />
