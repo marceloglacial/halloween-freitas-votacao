@@ -5,7 +5,6 @@ import { FC, useState } from 'react';
 
 export const Results: FC<ResultsProps> = (props): JSX.Element => {
   const [showWinner, setShowWinner] = useState(false);
-
   const blurClassName = showWinner ? 'animate-tada' : 'blur-2xl animate-pulse';
 
   return (
@@ -15,7 +14,7 @@ export const Results: FC<ResultsProps> = (props): JSX.Element => {
     >
       <div className='fixed top-8 right-8 inline-flex z-50'>
         <a className='btn btn-secondary' href={'/resultados'}>
-          Voltar para os resultados
+          Voltar
         </a>
       </div>
 

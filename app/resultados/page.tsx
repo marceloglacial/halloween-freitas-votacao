@@ -1,11 +1,9 @@
-import { Card, LogoutButton } from '@/components';
+import { Card } from '@/components';
 import { COLLECTIONS } from '@/constants';
 import { getAllDocsFromCollection } from '@/lib/firebase';
-import { getUserInfo } from '@/lib/login';
 import { secondaryFont } from '@/util/fonts';
 
 const ResultsPage = async () => {
-  const guestData = await getUserInfo();
   const pollsData = (await getAllDocsFromCollection(
     COLLECTIONS.POLLS
   )) as PollApiResponse;
