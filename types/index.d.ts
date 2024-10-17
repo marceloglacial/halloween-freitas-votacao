@@ -29,6 +29,7 @@ type PollType = {
     title: string
     icon: string
     options: GuestType[]
+    totalVotes?: number
 }
 
 interface PollApiResponse extends ApiResponse {
@@ -44,10 +45,16 @@ interface CardProps {
     title?: string;
     id: string;
     icon?: string;
-    disabled: boolean
+    disabled?: boolean
+    link: string
 }
 
 type PhotoType = {
     image: string
     alt: string
+}
+
+interface ResultsProps {
+    page: PollType;
+    firstPlace: GuestType;
 }

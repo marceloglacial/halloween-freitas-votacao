@@ -11,7 +11,7 @@ export const Card: FC<CardProps> = (props): JSX.Element => {
   };
   return (
     <a
-      href={props.disabled ? '#' : `/votacao/${props.id}`}
+      href={props.disabled ? '#' : props.link}
       className={`${props.disabled ? ' opacity-20' : ''}`}
       onClick={handleClick}
     >
