@@ -1,4 +1,5 @@
 type GuestType = {
+    createdAt?: string,
     id: string,
     name: string,
     email: string,

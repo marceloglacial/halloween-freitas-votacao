@@ -23,6 +23,10 @@ const updatePoll = async (pollId: string, selectedOption: GuestType): Promise<Ap
     const pollRef = doc(db, 'polls', pollId)
     const pollSnapshot = await getDoc(pollRef)
 
+    const selectedVote = structuredClone(selectedOption)
+    delete selectedVote.createdAt
+    delete selectedVote.polls
+
     if (!pollSnapshot.exists()) {
         throw new Error('Poll does not exist')
     }
@@ -33,7 +37,7 @@ const updatePoll = async (pollId: string, selectedOption: GuestType): Promise<Ap
         pollData.options = []
     }
 
-    const optionIndex = pollData.options.findIndex((option) => option.id === selectedOption.id)
+    const optionIndex = pollData.options.findIndex((option) => option.id === selectedVote.id)
 
     if (optionIndex !== -1) {
         const updatedOptions = [...pollData.options]
@@ -47,15 +51,15 @@ const updatePoll = async (pollId: string, selectedOption: GuestType): Promise<Ap
             totalVotes: increment(1),
         })
 
-        console.log(`Vote added to existing option "${selectedOption.name}" successfully!`)
+        console.log(`Vote added to existing option "${selectedVote.name}" successfully!`)
 
         return {
-            data: selectedOption,
+            data: selectedVote,
             status: 'success',
         }
     } else {
         const newOption: GuestType = {
-            ...selectedOption,
+            ...selectedVote,
             votes: 1,
         }
 
@@ -64,7 +68,7 @@ const updatePoll = async (pollId: string, selectedOption: GuestType): Promise<Ap
             totalVotes: increment(1),
         })
 
-        console.log(`New option "${selectedOption.name}" added successfully with an initial vote!`)
+        console.log(`New option "${selectedVote.name}" added successfully with an initial vote!`)
         return {
             data: newOption,
             status: 'success'
@@ -75,6 +79,11 @@ const updatePoll = async (pollId: string, selectedOption: GuestType): Promise<Ap
 const updateGuest = async (guest: GuestType, pollId: string, vote: GuestType): Promise<ApiResponse> => {
     const guestRef = doc(db, 'guests', guest.id)
     const guestSnapshot = await getDoc(guestRef)
+
+    const selectedVote = structuredClone(vote)
+    delete selectedVote.createdAt
+    delete selectedVote.polls
+
 
     if (!guestSnapshot.exists()) {
         throw new Error('Guest does not exist')
@@ -88,8 +97,10 @@ const updateGuest = async (guest: GuestType, pollId: string, vote: GuestType): P
 
 
     await updateDoc(guestRef, {
-        polls: arrayUnion({ pollId, vote }),
+        polls: arrayUnion({ pollId, vote: selectedVote }),
     });
+
+    console.log(`${selectedVote.name} added to ${guest.name} votes`)
 
     const updatedGuestSnapshot = await getDoc(guestRef);
     const updatedGuestData = updatedGuestSnapshot.data() as GuestType;
