@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
-import daisyui from "daisyui"
+import daisyui from "daisyui";
+import animations from "@midudev/tailwind-animations";
 
 const config: Config = {
   content: [
@@ -15,7 +16,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [daisyui],
+  plugins: [daisyui, animations],
   daisyui: {
     themes: ["halloween"],
   },

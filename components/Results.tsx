@@ -6,13 +6,19 @@ import { FC, useState } from 'react';
 export const Results: FC<ResultsProps> = (props): JSX.Element => {
   const [showWinner, setShowWinner] = useState(false);
 
-  const blurClassName = showWinner ? '' : 'blur-2xl animate-pulse';
+  const blurClassName = showWinner ? 'animate-tada' : 'blur-2xl animate-pulse';
 
   return (
     <div
       data-results-container
       className='flex flex-col gap-16 pb-32 mx-auto text-center'
     >
+      <div className='fixed top-8 right-8 inline-flex z-50'>
+        <a className='btn btn-secondary' href={'/resultados'}>
+          Voltar para os resultados
+        </a>
+      </div>
+
       <div
         data-results-header
         className='min-h-screen flex flex-col gap-16 items-center justify-center cursor-pointer'
@@ -22,12 +28,12 @@ export const Results: FC<ResultsProps> = (props): JSX.Element => {
           {props.page.icon} {props.page.title}
         </h1>
         <div data-results-winner className='grid grid-cols-1 gap-8'>
-          <div className='avatar justify-center '>
+          <div className={`avatar justify-center ${blurClassName}`}>
             <div className='ring-primary ring-offset-base-100 w-64 rounded-full ring ring-offset-8'>
               <Image
                 alt={`Fantasia de ${props.firstPlace.name}`}
                 src={`https://firebasestorage.googleapis.com/v0/b/halloween-freitas.appspot.com/o/${props.firstPlace.photo}?alt=media`}
-                className={`w-full h-full object-cover object-top aspect-square ${blurClassName}`}
+                className={`w-full h-full object-cover object-top aspect-square `}
                 width={192}
                 height={192}
               />
@@ -57,7 +63,7 @@ export const Results: FC<ResultsProps> = (props): JSX.Element => {
       </div>
       <div data-results-votes>
         <h2 className=' text-5xl text-center pt-24 pb-12'>
-          Apuração de votos totais
+          Apuração: {props.page.totalVotes} votos
         </h2>
         {props.page.options.map((option) => {
           if (!option.votes || !props.page.totalVotes) return;
