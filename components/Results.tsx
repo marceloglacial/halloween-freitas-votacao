@@ -52,7 +52,11 @@ export const Results: FC<ResultsProps> = (props): JSX.Element => {
                 <div className='stat-title'>Porcentagem</div>
                 {props.firstPlace.votes && props.page.totalVotes && (
                   <div className='stat-value'>
-                    {(props.firstPlace.votes / props.page.totalVotes) * 100}%
+                    {(
+                      (props.firstPlace.votes / props.page.totalVotes) *
+                      100
+                    ).toFixed(2)}
+                    %
                   </div>
                 )}
               </div>
@@ -62,7 +66,7 @@ export const Results: FC<ResultsProps> = (props): JSX.Element => {
       </div>
       <div data-results-votes>
         <h2 className=' text-5xl text-center pt-24 pb-12'>
-          Apuração: {props.page.totalVotes} votos
+          Apuração Final: {props.page.totalVotes} votos
         </h2>
         {props.page.options.map((option) => {
           if (!option.votes || !props.page.totalVotes) return;
