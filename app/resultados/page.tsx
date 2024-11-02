@@ -16,15 +16,21 @@ const ResultsPage = async () => {
         Resultados
       </h1>
       <div className='grid grid-cols-2 gap-8'>
-        {polls.map((poll) => {
+        {polls.map((poll, index) => {
           return (
-            <Card
+            <div
               key={poll.id}
-              title={poll.title}
-              id={poll.id}
-              icon={poll.icon}
-              link={`/resultados/${poll.id}`}
-            />
+              className={
+                index === 0 ? 'col-span-2 justify-center px-[300px]' : ''
+              }
+            >
+              <Card
+                title={poll.title}
+                id={poll.id}
+                icon={poll.icon}
+                link={`/resultados/${poll.id}`}
+              />
+            </div>
           );
         })}
       </div>

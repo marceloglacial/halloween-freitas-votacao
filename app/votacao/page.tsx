@@ -18,21 +18,30 @@ const DashboardPage = async () => {
 
   return (
     <div className='flex flex-col gap-8 p-16'>
-      <h1 className={`text-4xl text-center ${secondaryFont.className}`}>
+      <h1 className={`text-6xl text-center ${secondaryFont.className}`}>
         Bem vindo {guest.name}
       </h1>
+      <p className=' text-2xl text-center text-primary'>
+        ATENÇÃO: Você pode votar na mesma pessoa em mais de uma categoria.
+      </p>
       <div className='grid grid-cols-2 gap-8'>
-        {polls.map((poll) => {
+        {polls.map((poll, index) => {
           const hasVote = getGuestVote(poll.id);
           return (
-            <Card
+            <div
               key={poll.id}
-              title={poll.title}
-              id={poll.id}
-              icon={poll.icon}
-              disabled={!!hasVote}
-              link={`/votacao/${poll.id}`}
-            />
+              className={
+                index === 0 ? 'col-span-2 justify-center px-[300px]' : ''
+              }
+            >
+              <Card
+                title={poll.title}
+                id={poll.id}
+                icon={poll.icon}
+                disabled={!!hasVote}
+                link={`/votacao/${poll.id}`}
+              />
+            </div>
           );
         })}
       </div>
