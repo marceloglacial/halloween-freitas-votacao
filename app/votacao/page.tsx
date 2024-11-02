@@ -17,13 +17,15 @@ const DashboardPage = async () => {
     guest.polls?.find((poll) => poll.pollId === pollId);
 
   return (
-    <div className='flex flex-col gap-8 p-16'>
-      <h1 className={`text-6xl text-center ${secondaryFont.className}`}>
-        Bem vindo {guest.name}
-      </h1>
-      <p className=' text-2xl text-center text-primary'>
-        ATENÇÃO: Você pode votar na mesma pessoa em mais de uma categoria.
-      </p>
+    <div className='flex flex-col gap-8 py-8 px-16'>
+      <div>
+        <h1 className={`text-6xl text-center ${secondaryFont.className}`}>
+          Bem vindo {guest.name}
+        </h1>
+        <p className=' text-2xl text-center text-primary'>
+          ATENÇÃO: Você pode votar na mesma pessoa em mais de uma categoria.
+        </p>
+      </div>
       <div className='grid grid-cols-2 gap-8'>
         {polls.map((poll, index) => {
           const hasVote = getGuestVote(poll.id);
@@ -45,7 +47,7 @@ const DashboardPage = async () => {
           );
         })}
       </div>
-      <div className='flex justify-center'>
+      <div className='fixed top-8 right-8 flex justify-center'>
         <LogoutButton />
       </div>
     </div>
