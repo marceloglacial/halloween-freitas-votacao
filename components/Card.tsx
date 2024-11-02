@@ -18,12 +18,12 @@ export const Card: FC<CardProps> = (props): JSX.Element => {
       <div className='card card-side bg-secondary shadow-xl overflow-hidden'>
         {props.icon && (
           <div className='flex justify-center items-center p-4'>
-            <span className=' text-[100px]'>{props.icon}</span>
+            <span className=' text-[80px]'>{props.icon}</span>
           </div>
         )}
         {props.title && (
           <div className='card-body justify-center'>
-            <h2 className={`card-title text-4xl ${secondaryFont.className}`}>
+            <h2 className={`card-title text-3xl ${secondaryFont.className}`}>
               {props.title}
             </h2>
           </div>

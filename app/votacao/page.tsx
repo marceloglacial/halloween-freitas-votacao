@@ -20,7 +20,7 @@ const DashboardPage = async () => {
     <div className='flex flex-col gap-8 py-8 px-16'>
       <div>
         <h1 className={`text-6xl text-center ${secondaryFont.className}`}>
-          Bem vindo {guest.name}
+          Bem-vindo, {guest.name}!
         </h1>
         <p className=' text-2xl text-center text-primary'>
           ATENÇÃO: Você pode votar na mesma pessoa em mais de uma categoria.
